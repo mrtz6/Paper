@@ -42,10 +42,10 @@ index d2877c20f389d0131e1dd208b464f590671e5d82..27bdc70d861ca39487ad16cb3afb89d6
                  updateComponent(root, "minecraft:trim", hiddenComponents);
                  updateComponent(root, "minecraft:unbreakable", hiddenComponents);
 diff --git a/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index b62928b2203434fbc77b374428a69d19d89d99e9..46d6c6e345c3eb9652c9ef9737d8446165ebe466 100644
+index 718cfc527f93c1cb2e7808a1d8d511790efcff6c..80233a6a16197f26b4c2d59189a69429d7819d11 100644
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1848,9 +1848,14 @@ public class ServerGamePacketListenerImpl
+@@ -1850,9 +1850,14 @@ public class ServerGamePacketListenerImpl
      private boolean hasNewCollision(final ServerLevel level, final Entity entity, final AABB oldBox, final AABB newBox) {
          final List<AABB> collisionsBB = new java.util.ArrayList<>();
          final List<VoxelShape> collisionsVoxel = new java.util.ArrayList<>();
