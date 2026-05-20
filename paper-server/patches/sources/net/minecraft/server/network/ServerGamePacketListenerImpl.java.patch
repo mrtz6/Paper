@@ -405,7 +405,7 @@
 +
 +        final net.minecraft.world.item.component.BundleContents contents = item.get(net.minecraft.core.component.DataComponents.BUNDLE_CONTENTS);
 +        if (contents != null) {
-+            if (!new net.minecraft.world.item.component.BundleContents.Mutable(contents).indexIsOutsideAllowedBounds(selectedIndex)) {
++            if (!(new net.minecraft.world.item.component.BundleContents.Mutable(contents)).indexIsOutsideAllowedBounds(selectedIndex)) {
 +                new io.papermc.paper.event.player.PlayerBundleItemSelectEvent(
 +                    this.getCraftPlayer(),
 +                    item.asBukkitMirror(),
