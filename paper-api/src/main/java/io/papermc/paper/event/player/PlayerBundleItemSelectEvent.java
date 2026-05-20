@@ -32,6 +32,7 @@ public final class PlayerBundleItemSelectEvent extends PlayerEvent {
 
     /**
      * Gets the bundle item.
+     *
      * @return the bundle item
      */
     public ItemStack getBundle() {
@@ -40,6 +41,7 @@ public final class PlayerBundleItemSelectEvent extends PlayerEvent {
 
     /**
      * Gets the selected item inside the bundle.
+     *
      * @return the selected item
      */
     public ItemStack getSelectedItem() {
@@ -48,6 +50,7 @@ public final class PlayerBundleItemSelectEvent extends PlayerEvent {
 
     /**
      * Gets the selected index.
+     *
      * @return the selected index
      */
     public int getSelectedIndex() {
