@@ -42,10 +42,10 @@ index d2877c20f389d0131e1dd208b464f590671e5d82..27bdc70d861ca39487ad16cb3afb89d6
                  updateComponent(root, "minecraft:trim", hiddenComponents);
                  updateComponent(root, "minecraft:unbreakable", hiddenComponents);
 diff --git a/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 06132bde0aed9dd9088c884ee31056b9176b6f90..08374da2d9b84e8ff13c670d7f45867fb0bdd897 100644
+index b62928b2203434fbc77b374428a69d19d89d99e9..46d6c6e345c3eb9652c9ef9737d8446165ebe466 100644
 --- a/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1819,9 +1819,14 @@ public class ServerGamePacketListenerImpl
+@@ -1848,9 +1848,14 @@ public class ServerGamePacketListenerImpl
      private boolean hasNewCollision(final ServerLevel level, final Entity entity, final AABB oldBox, final AABB newBox) {
          final List<AABB> collisionsBB = new java.util.ArrayList<>();
          final List<VoxelShape> collisionsVoxel = new java.util.ArrayList<>();
@@ -62,7 +62,7 @@ index 06132bde0aed9dd9088c884ee31056b9176b6f90..08374da2d9b84e8ff13c670d7f45867f
          );
  
 diff --git a/net/minecraft/world/level/Level.java b/net/minecraft/world/level/Level.java
-index fa3809be5c0488c5a1d2639579d68619b0a55de9..c332d48f5cac2f3be93201c66f4f7cdba916cbac 100644
+index 7e4cf8a13e0ff2198cb7b6d80fb3fa343339943b..4522fde3a08637a01130ad39dc8a11a2c4f7f1cb 100644
 --- a/net/minecraft/world/level/Level.java
 +++ b/net/minecraft/world/level/Level.java
 @@ -1529,7 +1529,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable, ca.spottedl
