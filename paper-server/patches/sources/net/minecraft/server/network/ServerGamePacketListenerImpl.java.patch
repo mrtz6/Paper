@@ -382,12 +382,10 @@
      }
  
      @Override
-@@ -565,13 +_,43 @@
- 
+@@ -566,12 +_,42 @@
      @Override
      public void handleBundleItemSelectedPacket(final ServerboundSelectBundleItemPacket packet) {
--        PacketUtils.ensureRunningOnSameThread(packet, this, this.player.level());
-+        net.minecraft.network.protocol.PacketUtils.ensureRunningOnSameThread(packet, this, this.player.level());
+         PacketUtils.ensureRunningOnSameThread(packet, this, this.player.level());
 +        // this.player.containerMenu.setSelectedBundleItemIndex(packet.slotId(), packet.selectedItemIndex()); // Paper - PlayerBundleItemSelectEvent; moved to expose previous index
 +        // Paper start - PlayerBundleItemSelectEvent
 +        if (!this.player.isCreative() || !(this.player.containerMenu instanceof net.minecraft.world.inventory.InventoryMenu)) {
