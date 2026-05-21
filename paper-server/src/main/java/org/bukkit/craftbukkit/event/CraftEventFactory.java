@@ -1606,6 +1606,38 @@ public class CraftEventFactory {
         return event;
     }
 
+    public static void callPlayerBundleItemSelectEvent(final net.minecraft.world.entity.player.Player player, final int slotId, final int selectedIndex) {
+        if (player.isCreative() && player.containerMenu instanceof net.minecraft.world.inventory.InventoryMenu) {
+            // The packet's slotId will always be 0 if this packet is sent for a player selecting an item in a bundle in their creative inventory,
+            // making it unfit for firing an event.
+            return;
+        }
+
+        if (slotId < 0 || slotId >= player.containerMenu.slots.size() || selectedIndex == net.minecraft.world.item.component.BundleContents.NO_SELECTED_ITEM_INDEX) {
+            return;
+        }
+
+        final net.minecraft.world.item.ItemStack item = player.containerMenu.slots.get(slotId).getItem();
+        if (!item.is(net.minecraft.tags.ItemTags.BUNDLES)) {
+            return;
+        }
+
+        final net.minecraft.world.item.component.BundleContents contents = item.get(net.minecraft.core.component.DataComponents.BUNDLE_CONTENTS);
+        if (contents == null || (new net.minecraft.world.item.component.BundleContents.Mutable(contents)).indexIsOutsideAllowedBounds(selectedIndex)) {
+            return;
+        }
+
+        new io.papermc.paper.event.inventory.PlayerBundleItemSelectEvent(
+            player.containerMenu.getBukkitView(),
+            item.asBukkitMirror(),
+            slotId,
+            contents.getSelectedItem() != null ? contents.getSelectedItem().create().asBukkitMirror() : org.bukkit.inventory.ItemStack.empty(),
+            contents.items().get(selectedIndex).create().asBukkitMirror(),
+            contents.getSelectedItemIndex(),
+            selectedIndex
+        ).callEvent();
+    }
+
     public static void handleInventoryCloseEvent(net.minecraft.world.entity.player.Player human, org.bukkit.event.inventory.InventoryCloseEvent.Reason reason) {
         InventoryCloseEvent event = new InventoryCloseEvent(human.containerMenu.getBukkitView(), reason); // Paper
         human.level().getCraftServer().getPluginManager().callEvent(event);
