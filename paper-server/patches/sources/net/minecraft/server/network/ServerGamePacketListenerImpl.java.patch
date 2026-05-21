@@ -382,41 +382,42 @@
      }
  
      @Override
-@@ -567,11 +_,43 @@
+@@ -565,13 +_,43 @@
+ 
+     @Override
      public void handleBundleItemSelectedPacket(final ServerboundSelectBundleItemPacket packet) {
-         PacketUtils.ensureRunningOnSameThread(packet, this, this.player.level());
-         this.player.containerMenu.setSelectedBundleItemIndex(packet.slotId(), packet.selectedItemIndex());
-+
+-        PacketUtils.ensureRunningOnSameThread(packet, this, this.player.level());
++        net.minecraft.network.protocol.PacketUtils.ensureRunningOnSameThread(packet, this, this.player.level());
++        // this.player.containerMenu.setSelectedBundleItemIndex(packet.slotId(), packet.selectedItemIndex()); // Paper - PlayerBundleItemSelectEvent; moved to expose previous index
 +        // Paper start - PlayerBundleItemSelectEvent
-+        if (this.player.isCreative() && this.player.containerMenu instanceof net.minecraft.world.inventory.InventoryMenu) {
++        if (!this.player.isCreative() || !(this.player.containerMenu instanceof net.minecraft.world.inventory.InventoryMenu)) {
 +            // The packet's slotId will always be 0 if this packet is sent for a player selecting an item in a bundle in their creative inventory,
 +            // making it unfit for firing an event.
-+            return;
-+        }
 +
-+        final int slotId = packet.slotId();
-+        final int selectedIndex = packet.selectedItemIndex();
-+        if (slotId < 0 || slotId >= this.player.containerMenu.slots.size() || selectedIndex == net.minecraft.world.item.component.BundleContents.NO_SELECTED_ITEM_INDEX) {
-+            return;
-+        }
-+
-+        final ItemStack item = this.player.containerMenu.slots.get(slotId).getItem();
-+        if (!item.is(net.minecraft.tags.ItemTags.BUNDLES)) {
-+            return;
-+        }
-+
-+        final net.minecraft.world.item.component.BundleContents contents = item.get(net.minecraft.core.component.DataComponents.BUNDLE_CONTENTS);
-+        if (contents != null) {
-+            if (!(new net.minecraft.world.item.component.BundleContents.Mutable(contents)).indexIsOutsideAllowedBounds(selectedIndex)) {
-+                new io.papermc.paper.event.player.PlayerBundleItemSelectEvent(
-+                    this.getCraftPlayer(),
-+                    item.asBukkitMirror(),
-+                    java.util.Objects.requireNonNull(contents.getSelectedItem()).create().asBukkitMirror(),
-+                    selectedIndex
-+                ).callEvent();
++            final int slotId = packet.slotId();
++            final int selectedIndex = packet.selectedItemIndex();
++            if (slotId >= 0 && slotId < this.player.containerMenu.slots.size() && selectedIndex != net.minecraft.world.item.component.BundleContents.NO_SELECTED_ITEM_INDEX) {
++                final net.minecraft.world.item.ItemStack item = this.player.containerMenu.slots.get(slotId).getItem();
++                if (item.is(net.minecraft.tags.ItemTags.BUNDLES)) {
++                    final net.minecraft.world.item.component.BundleContents contents = item.get(net.minecraft.core.component.DataComponents.BUNDLE_CONTENTS);
++                    if (contents != null) {
++                        if (!(new net.minecraft.world.item.component.BundleContents.Mutable(contents)).indexIsOutsideAllowedBounds(selectedIndex)) {
++                            new io.papermc.paper.event.inventory.PlayerBundleItemSelectEvent(
++                                this.player.containerMenu.getBukkitView(),
++                                item.asBukkitMirror(),
++                                slotId,
++                                contents.getSelectedItem() != null ? contents.getSelectedItem().create().asBukkitMirror() : org.bukkit.inventory.ItemStack.empty(),
++                                contents.items().get(selectedIndex).create().asBukkitMirror(),
++                                contents.getSelectedItemIndex(),
++                                selectedIndex
++                            ).callEvent();
++                        }
++                    }
++                }
 +            }
 +        }
 +        // Paper end - PlayerBundleItemSelectEvent
+         this.player.containerMenu.setSelectedBundleItemIndex(packet.slotId(), packet.selectedItemIndex());
      }
  
      @Override
