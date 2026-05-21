@@ -382,11 +382,10 @@
      }
  
      @Override
-@@ -566,12 +_,42 @@
+@@ -566,12 +_,41 @@
      @Override
      public void handleBundleItemSelectedPacket(final ServerboundSelectBundleItemPacket packet) {
          PacketUtils.ensureRunningOnSameThread(packet, this, this.player.level());
-+        // this.player.containerMenu.setSelectedBundleItemIndex(packet.slotId(), packet.selectedItemIndex()); // Paper - PlayerBundleItemSelectEvent; moved to expose previous index
 +        // Paper start - PlayerBundleItemSelectEvent
 +        if (!this.player.isCreative() || !(this.player.containerMenu instanceof net.minecraft.world.inventory.InventoryMenu)) {
 +            // The packet's slotId will always be 0 if this packet is sent for a player selecting an item in a bundle in their creative inventory,
